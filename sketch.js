@@ -110,7 +110,7 @@ function setup()
   createCanvas(830,600);
   
   //Starting Canvas
-  canvas = 5;
+  canvas = 1;
   
   //Mouse Setting
   lock = false;
