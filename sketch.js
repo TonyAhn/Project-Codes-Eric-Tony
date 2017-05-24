@@ -1,17 +1,43 @@
+
+/*
+  Explain Canvas transition
+  
+  Canvas 1.0 - intro
+  Canvas 2.0 - Prison map + toilet paper
+  Canvas 2.1 - Password Codes (KeyPads) (8912)
+  Cavnas 2.2 - Second room Under Canvas 2
+  Canvas 3 - Password Codes (Circles) (1234)
+  Canvas 4 - Cells -> Prison Corridor
+  Canvas 5 - Outside
+*/
+
+
 function preload()
 {
-  /*
-  GameofRevenge = loadSound('https://dl.dropbox.com/s/dktapss5jq0qjgp/Game-of-Revenge-Sound-Track-1.mp3?dl=0');
-  */
+  //Background Music 1
+  BGMU1 = loadSound('https://dl.dropbox.com/s/dktapss5jq0qjgp/Game-of-Revenge-Sound-Track-1.mp3?dl=0');
+  
+  //Background Music 2
+  BGMU2 = loadSound('https://dl.dropbox.com/s/a9wru4uahh7dpda/Music%201.mp3?dl=0');
+  
+  //Background Music 3
+  BGMU3 = loadSound('https://dl.dropbox.com/s/7iyptd644az1pcw/Music%202.mp3?dl=0');
+  
+  //Background Music 4
+  BGMU4 = loadSound('https://dl.dropbox.com/s/i9b4yz2fwwaop2x/Music%203.mp3?dl=0');
+  
+  //Background Music 5
+  BGMU5 = loadSound('https://dl.dropbox.com/s/jx6uipvi9jmxl99/Music%205.mp3?dl=0');
+  
   
   //Background Image Canvas 1
-  BGIC1 = loadImage('https://dl.dropbox.com/s/o8y1br54pjwcgn1/Courtroom.jpg?dl=0');
+  BGIC1 = loadImage('https://dl.dropbox.com/s/wbt3vfwy5cre630/Kanye%27s%20Perspective%20800%20X%20600.jpg?dl=0');
   
   
   //canvas 2 files
   
   //Background Image Canvas 2
-  BGIC2 = loadImage('https://dl.dropbox.com/s/ukl3mf1lxvzv8hc/Corridor%20Prison.jpg?dl=0');
+  BGIC2 = loadImage('https://dl.dropbox.com/s/vdhwsx377zah38t/Jail%20room%20_1.png?dl=0');
   
   //Window Image Canvas 2
   WDIC2 = loadImage('https://dl.dropbox.com/s/ywswqerch0nmk2c/window1.png?dl=0');
@@ -35,7 +61,7 @@ function preload()
   //canvas 3 files
   
   //Background Image Canvas 3
-  BGIC3 = loadImage('https://dl.dropbox.com/s/n7agmy594agei53/Prison%20Courtyard.png?dl=0');
+  BGIC3 = loadImage('https://dl.dropbox.com/s/4yajfpsdtdfc5e7/prison%20Room%20800%20x%20600.jpg?dl=0');
   
   //Air vent Image Canvas 3
   AVIC3 = loadImage('https://dl.dropbox.com/s/wuid67ua0nx48mf/air%20vent.png?dl=0');
@@ -101,7 +127,11 @@ function preload()
   CRSmI = loadImage('https://dl.dropbox.com/s/arsx7nygonleqvz/small%20metal%20shelf.png?dl=0');
   
   //Door
-  CRSDI = ('https://dl.dropbox.com/s/44qvffr5z0evjy6/Door4.png?dl=0');
+  CRSDI = loadimage('https://dl.dropbox.com/s/44qvffr5z0evjy6/Door4.png?dl=0');
+  
+  
+  //Canvas 6
+  ECIMG = loadimage('https://dl.dropbox.com/s/np72j8i3nsx45f6/gj.jpg?dl=0');
 }
 
 function setup()
@@ -116,7 +146,7 @@ function setup()
   lock = false;
   
   //state of paper roll -> Canvas 2
-  movePRIC2X = 50;
+  movePRIC2X = 450;
   movePRIC2Y = 280;
   endPRIC2X = 30;
   endPRIC2Y = 530;
@@ -140,7 +170,7 @@ function setup()
   sizeC1Y = 30;
   nsizeC1X = 93;
   nsizeC1Y = 93;
-  stateOfC1 = 1;
+  stateOfC1 = 1
   
   //state of Choco -> Canvas 4
   moveChocoX = 430;
@@ -198,22 +228,36 @@ function draw()
   if (canvas == 1)
   {
     canvas1();
+    if (BGMU2.isPlaying() == false)
+      {
+        BGMU2.play();
+      }
   }
   else if (canvas == 2)
   {
     canvas2();
+    if (BGMU2.isPlaying() == true && BGMU3.isPlaying() == false)
+      {
+        BGMU2.stop();
+        BGMU3.play();
+      }
   }
   else if (canvas == 2.1)
   {
     canvas2_1();
   }
+  else if (canvas == 2.2)
+  {
+    canvas2_2();
+  }
   else if (canvas == 3)
   {
     canvas3();
-    /*if (GameofRevenge.isPlaying() == false)
+    if (BGMU3.isPlaying() == true && BGMU1.isPlaying() == false)
     {
-      GameofRevenge.play();
-    }*/
+      BGMU3.stop();
+      BGMU1.play();
+    }
   }
   else if (canvas == 3.1)
   {
@@ -222,6 +266,11 @@ function draw()
   else if (canvas == 4)
   {
     canvas4();
+    if (BGMU1.isPlaying() == true && BGMU4.isPlaying() == false)
+      {
+        BGMU1.stop();
+        BGMU4.play();
+      }
   }
   else if (canvas == 4.1)
   {
@@ -234,6 +283,11 @@ function draw()
   else if (canvas == 5)
   {
     canvas5();
+    if (BGMU4.isPlaying() == true && BGMU5.isPlaying() == false)
+      {
+        BGMU4.stop();
+        BGMU5.play();
+      }
   }
   else if (canvas == 5.1)
   {
@@ -242,6 +296,10 @@ function draw()
   else if (canvas == 6)
   {
     canvasRS();
+  }
+  else if (canvas == 7)
+  {
+    endcanvas();
   }
   else
   {
@@ -284,9 +342,9 @@ function canvas2() // Prison Corridor -> Cell
   //Background Image
   image(BGIC2,0,0,830,600);
   //Window Image
-  image(WDIC2,390,280,50,50);
+  image(WDIC2,460,90,100,85);
   //Lock Image
-  image(LKIC2,390,290,25,25);
+  image(LKIC2,312.5,315,25,25);
 
   //Room number
   //5
@@ -299,7 +357,7 @@ function canvas2() // Prison Corridor -> Cell
   //Settings for Paper Rolls
   if (stateOfPRIC2 == 1)
   {
-    movePRIC2X = 50;
+    movePRIC2X = 450;
     movePRIC2Y = 280;
     image(PRIC2,movePRIC2X,movePRIC2Y,50,50);
   }
@@ -320,7 +378,8 @@ function canvas2() // Prison Corridor -> Cell
   }
   
   //Action for mouse to take
-  if (mouseX > 390 && mouseX < 440 && mouseY > 280 && mouseY < 330)
+  /*image(WDIC2,460,90,100,85);*/
+  if (mouseX > 460 && mouseX < 560 && mouseY > 90 && mouseY < 175)
   {
     cursor(HAND);
     if (stateOfPRIC2 == 3)
@@ -340,7 +399,10 @@ function canvas2() // Prison Corridor -> Cell
   }
   
   //Paper Roll PRIC2 I
-  else if (mouseX > 50 && mouseX < 100 && mouseY > 280 && mouseY < 330)
+  /*movePRIC2X = 450;
+  movePRIC2Y = 280;
+  image(PRIC2,movePRIC2X,movePRIC2Y,50,50);*/
+  else if (mouseX > 450 && mouseX < 500 && mouseY > 280 && mouseY < 330)
   {
     cursor(HAND);
     if (mouseIsPressed == true)
@@ -375,6 +437,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
 {
   //turn back the mouse setting
   cursor(ARROW);
+  lock = false;
   //Key Pad password setting up
   //KPIC2, 250, 80, 300, 400
   if(stateOfKeypad == 1)
@@ -403,6 +466,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
   else if (stateOfKeypad == 3)
   {
     image(KPIC2,250,80,nsizeKeypadX,nsizeKeypadY);
+    lock = true;
   }
   
   //1
@@ -430,6 +494,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   //7
@@ -442,6 +507,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   //*
@@ -454,6 +520,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   //2
@@ -481,6 +548,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   //8
@@ -505,18 +573,20 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   //3
   else if (mouseX > 450 && mouseX < 550 && mouseY > 80 && mouseY < 180)
   {
     cursor(HAND);
-    if (mouseIsPressed == true)
+    if (mouseIsPressed == true && lock == true)
     {
       rect(455,85,90,90);
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   //6
@@ -529,6 +599,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   //9
@@ -556,6 +627,7 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
       textSize(70);
       text("ERROR!",250,70);
       canvas = 2;
+      lock = false;
     }
   }
   else
@@ -567,6 +639,11 @@ function canvas2_1() // Password Codes (KeyPads) (8912)
   {
     canvas = 3;
   }
+}
+
+function canvas2_2() // Second Room
+{
+  background(172,172,172);
 }
 
 function canvas3() // Prison Courtyard -> Cell
@@ -1440,8 +1517,13 @@ function canvas5_1()
 
   if (AA == true && BB == true && CC == true)
   {
-    canvas = 1;
+    canvas = 7;
   }
+}
+
+function endcanvas()
+{
+  background(172,172,172);
 }
 
 function itemGrid()
