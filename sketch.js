@@ -7,10 +7,31 @@
   Canvas 2.1 - Password Codes (KeyPads) (8912)
   Cavnas 2.2 - Second room Under Canvas 2
   Canvas 3 - Password Codes (Circles) (1234)
-  Canvas 4 - Cells -> Prison Corridor
-  Canvas 5 - Outside
+  Canvas 4 - Cells -> Prison Corridor (2873)
+  Canvas 4.1 - Keypad without fingerprints
+  Canvas 4.2 - Keypad with fingerprints 
+  Cavnvas 5 - Prison Corridor -> Outside
+  Canvas 5.1 - Vent maximized
 */
 
+var stateOfChoco;
+var moveChocoX;
+var moveChocoY;
+var endChocoX;
+var endChocoY;
+
+var stateOfSpoon;
+var moveSpoonX;
+var moveSpoonY;
+var endSpoonX;
+var endSpoonY;
+
+var stateOfBolt1;
+var moveBolt1;
+
+
+var fingerprint1;
+var fingerprint2;
 
 function preload()
 {
@@ -43,7 +64,7 @@ function preload()
   WDIC2 = loadImage('https://dl.dropbox.com/s/ywswqerch0nmk2c/window1.png?dl=0');
   
   //Paper Roll Image Canvas 2
-  PRIC2 = loadImage('https://dl.dropbox.com/s/cqrgbfo37c7e4h7/rotolo.png?dl=0');
+  PRIC2 = loadImage('https://dl.dropbox.com/s/exwix798sa1bfup/800%20x%20600%20tissue%20roll.png?dl=0');
   
   //Lock Image Canvas 2
   LKIC2 = loadImage('https://dl.dropbox.com/s/6qmtlr6j38pp54j/26053.png?dl=0');
@@ -75,59 +96,47 @@ function preload()
   
   //canvas 4 files
   
-  //Background Canvas 4
-  C4Background =    loadImage('https://dl.dropboxusercontent.com/s/gcwl31qjnovx82t/cell.jpg');
-  
-  //KeyPad Canvas 4
+  ///Background imange for Canvas 4
+  C4Background =    loadImage('https://dl.dropboxusercontent.com/s/e4pqhjf0bkpqoif/prison%20cell%203.png?dl=0');
+
+  //Background image for Canvas 5
+  C5Background =    loadImage('https://dl.dropboxusercontent.com/s/xkjr545lpmaktic/Screen%20Shot%202017-05-19%20at%201.40.43%20AM.png?dl=0');
+
+  //Keypad image for Canvas 4
   C4Keypad =    loadImage('https://dl.dropboxusercontent.com/s/x0egvvhrpobh5l9/lock.png');
-  
-  //Lock Canvas 4
+
+  //Lock image for Canvas 4
   C4Lock =    loadImage('https://dl.dropboxusercontent.com/s/auhvp0qy80dll5t/locks.png');
-  
-  //Choco #trash Canvas 4
+
+  //Chocolate wrap for Canvas 4
   C4Choco =    loadImage('https://dl.dropboxusercontent.com/s/en9rfv1mchgfas8/chocolate%20layer.png');
 
-  //Fingerprint Canvas 4
+  //Fingerprint #1 for Canvas 4
   C4Fingerprint1 =   loadImage('https://dl.dropboxusercontent.com/s/cg4ozqc65vovq6i/fingerprint%201.png');
 
-  //Fingerprint Canvas 4
+  //Fingerprint #2 for Canvas 4
   C4Fingerprint2 =   loadImage('https://dl.dropboxusercontent.com/s/7x5osvdugcjkpkn/fingerprint%202.png');
-  
-  
-  //Canvas 5
-  
-  //Vent Canvas 5
+
+  //Vent image for Canvas 5
   C5Vent =   loadImage('https://dl.dropboxusercontent.com/s/53rp3vzvp7pcmwu/vent.png');
 
+  //Image of Spoon for Canvas 5
   C5Spoon =   loadImage('https://dl.dropboxusercontent.com/s/r9c8qxtizpy4cgb/spoon.png');
 
+  //Image of Bolt for Canvas 5
   C5Bolt =   loadImage('https://dl.dropboxusercontent.com/s/837h3qpxgqzqlgx/bolt%201.png');
 
+  //Image for Bolt for Canvas 5 (90 degrees)
   C5BoltA =   loadImage('https://dl.dropboxusercontent.com/s/837h3qpxgqzqlgx/bolt%201.png');
 
+  //Image for Bolt for Canvas 5 (0 degrees)
   C5BoltB =   loadImage('https://dl.dropboxusercontent.com/s/l65fekapd6eol42/bolt%202.png');
 
+  //Image for Bolt for Canvas 5 (45 degrees)
   C5BoltC =   loadImage('https://dl.dropboxusercontent.com/s/masdlp7yx73k706/bolt%203.png');
 
+  //Image for Bolt for Canvas 5 (135 degrees)
   C5BoltD =   loadImage('https://dl.dropboxusercontent.com/s/eh1cybiffh9400y/bolt%204.png');
-  
-  
-  //CanvasRS files
-  
-  //Bed
-  CRSBI = loadImage('https://dl.dropbox.com/s/aa0t9exsciecs14/bed%20re.png?dl=0');
-  
-  //Table
-  CRSTI = loadImage('https://dl.dropbox.com/s/m0vdwhjgmouvtni/table.png?dl=0');
-
-  //Metal Shelf
-  CRSMI = loadImage('https://dl.dropbox.com/s/qq2sj4h166odcgc/metal%20shelf.png?dl=0');
-  
-  //Small Metal Shelf
-  CRSmI = loadImage('https://dl.dropbox.com/s/arsx7nygonleqvz/small%20metal%20shelf.png?dl=0');
-  
-  //Door
-  CRSDI = loadimage('https://dl.dropbox.com/s/44qvffr5z0evjy6/Door4.png?dl=0');
   
   
   //Canvas 6
@@ -172,28 +181,43 @@ function setup()
   nsizeC1Y = 93;
   stateOfC1 = 1
   
-  //state of Choco -> Canvas 4
+  //State for the Chocolate wrap
   moveChocoX = 430;
   moveChocoY = 430;
   stateOfChoco = 1;
   endChocoX = 30;
   endChocoY = 530;
 
+  //State of Spoon
   moveSpoonX = 430;
   moveSpoonY = 430;
   stateOfSpoon = 1;
   endSpoonX = 30;
   endSpoonY = 530;
 
+  //State of Vent
   C5SizeX = 40;
   C5SizeY = 30;
   endSizeX = 420;
   endSizeY = 300;
   stateOfC5Vent = 1;
-  
+
+  //State of Bolt
+  stateOfC5BoltX = 0;
+
+  //State of Bolts
   C5BoltX = 0;
   C5BoltY = 0;
   C5BoltZ = 0;
+
+  //Password for Bolts
+  AA = false;
+  BB = false;
+  CC = false;
+
+  //Block click counter
+  lock = false;
+  boltClickCount = 0;
   
   //passwords #1 Number Key Pad
   a = false;
@@ -221,6 +245,12 @@ function setup()
   AA = false;
   BB = false;
   CC = false;
+  
+  //password canvas #4
+  AAA = false;
+  BBB = false;
+  CCC = false;
+  DDD = false;
 }
 
 function draw()
@@ -294,10 +324,6 @@ function draw()
     canvas5_1();
   }
   else if (canvas == 6)
-  {
-    canvasRS();
-  }
-  else if (canvas == 7)
   {
     endcanvas();
   }
@@ -651,7 +677,7 @@ function canvas3() // Prison Courtyard -> Cell
   //Background Image
   image(BGIC3,0,0,830,600);
   //Air vent Image
-  image(AVIC3,50,400,50,50);
+  image(AVIC3,280,350,50,50);
   itemGrid();
   
   //Settings for the Screw Driver 
@@ -672,7 +698,7 @@ function canvas3() // Prison Courtyard -> Cell
   }
   
   //Mouse on Play
-  if (mouseX > 50 && mouseX < 100 && mouseY > 400 && mouseY < 450)
+  if (mouseX > 280 && mouseX < 330 && mouseY > 350 && mouseY < 400)
   {
     cursor(HAND);
     if (stateOfSDIC3 == 3)
@@ -868,13 +894,17 @@ function canvas3_1() // Password Codes (Circles) (1234)
   }
 }
 
-function draw1()
+function draw1() //function for the Bolt 1 (7 o clock)
 {
   if (C5BoltX == 0)
   {
     image(C5BoltD,230,350,40,40);
   }
   else if (C5BoltX == 1)
+  {
+    image(C5BoltC,230,350,40,40);
+  }
+  else if (C5BoltX == 2)
   {
     image(C5BoltB,230,350,40,40);
   }
@@ -884,7 +914,7 @@ function draw1()
   }
 }
 
-function draw2()
+function draw2() //function for Bolt 2 (2 o clock)
 {
   if (C5BoltY == 0)
   {
@@ -900,7 +930,7 @@ function draw2()
   }
 }
 
-function draw3()
+function draw3() //function for Bolt 3 (5 0 clock)
 {
   if (C5BoltZ == 0)
   {
@@ -918,13 +948,16 @@ function draw3()
 
 function canvas4() // Cell -> Prison Corridor
 {
-  
-  image(C4Background,0,0,830,600); 
+  //Background Image for Canvas 4
+  image(C4Background,-20,0,830,600); 
+  //Grid for items
+  fill(255,255,255);
   itemGrid();
 
-  image(C4Lock,180,280,20,25);
-  
+  //Image of the lock
+  image(C4Lock,505,310,20,25);
 
+  //State of Chocolate wrap
   if (stateOfChoco == 1)
   {
     moveChocoX = 430;
@@ -935,6 +968,7 @@ function canvas4() // Cell -> Prison Corridor
   {
     image(C4Choco,endChocoX,endChocoY,50,50);
   }
+  //Chocolate wrap == mouse Cursor
   else if (stateOfChoco == 3)
   {
     noCursor;
@@ -945,7 +979,8 @@ function canvas4() // Cell -> Prison Corridor
     stateOfChoco = 3;
     canvas = 4.2;
   }
- 
+
+  //When the chocolate wrap is clicked
   if (mouseX > 430 && mouseX < 480 && mouseY > 430 && mouseY < 480)
   {
     cursor(HAND);
@@ -954,20 +989,24 @@ function canvas4() // Cell -> Prison Corridor
       stateOfChoco = 2;
     }
   }
-  
-  else if (mouseX > 180 && mouseX < 200 && mouseY > 280 && mouseY < 300)
+
+  //When the chocolate wrap is on the lock
+  else if (mouseX > 505 && mouseX < 525 && mouseY > 310 && mouseY < 400)
   {
     cursor(HAND);
-    if (mouseIsPressed == true && stateOfChoco == 3)
+    if (stateOfChoco == 3 && mouseIsPressed == true)
     {
+
       canvas = 4.2;
     }
+    //when the lock is clicked without the chocolate wrap
     else if (mouseIsPressed == true)
     {
       canvas = 4.1;
     }
   }
-  
+
+  //When the Chocolate wrap is clicked in the itemgrid
   else if (mouseX > 20 && mouseX < 90 && mouseY > 520 && mouseY < 590)
   {
     cursor(HAND);
@@ -981,14 +1020,16 @@ function canvas4() // Cell -> Prison Corridor
   {
     cursor(ARROW);
   }
-  
+
 }
 
-function canvas4_1()
+function canvas4_1() //Keypad with no fingerprint
 {
+  //Image of a keypad
   image(C4Keypad,250,80,300,400);
   itemGrid();
-  //1
+
+  //Keypad #1
   if (mouseX > 250 && mouseX < 350 && mouseY > 80 && mouseY < 180)
   {
     cursor(HAND);
@@ -1000,8 +1041,8 @@ function canvas4_1()
       canvas = 4;
     }
   }
-  
-  //0
+
+  //Keypad #0
   else if (mouseX > 350 && mouseX < 450 && mouseY > 380 && mouseY < 480)
   {
     cursor(HAND);
@@ -1013,8 +1054,8 @@ function canvas4_1()
       canvas = 4;
     }
   }
-  
-  //2
+
+  //Keypad #2
   else if (mouseX > 350 && mouseX < 450 && mouseY > 80 && mouseY < 180)
   {
     cursor(HAND);
@@ -1025,8 +1066,8 @@ function canvas4_1()
       text("2",570+0,120);
     }
   }
-  
-  //3
+
+  //Keypad #3
   else if (mouseX > 450 && mouseX < 550 && mouseY > 80 && mouseY < 180)
   {
     cursor(HAND);
@@ -1037,8 +1078,8 @@ function canvas4_1()
       text("3",570+75,120);
     }
   }
-  
-  //4
+
+  //Keypad #4
   else if (mouseX > 250 && mouseX < 350 && mouseY > 180 && mouseY < 280)
   {
     cursor(HAND);
@@ -1051,8 +1092,8 @@ function canvas4_1()
 
     }
   }
-  
-  //5
+
+  //Keypad #5
   else if (mouseX > 350 && mouseX < 450 && mouseY > 180 && mouseY < 280)
   {
     cursor(HAND);
@@ -1064,8 +1105,8 @@ function canvas4_1()
       canvas = 4;
     }
   }
-  
-  //6
+
+  //Keypad #6
   else if (mouseX > 450 && mouseX < 550 && mouseY > 180 && mouseY < 280)
   {
     cursor(HAND);
@@ -1077,8 +1118,8 @@ function canvas4_1()
       canvas = 4;
     }
   }
-  
-  //7
+
+  //Keypad #7
   else if (mouseX > 250 && mouseX < 350 && mouseY > 280 && mouseY < 380)
   {
     cursor(HAND);
@@ -1089,8 +1130,8 @@ function canvas4_1()
       text("7",570+50,120);
     }
   }
-  
-  //8
+
+  //Keypad #8
   else if (mouseX > 350 && mouseX < 450 && mouseY > 280 && mouseY < 380)
   {
     cursor(HAND);
@@ -1101,20 +1142,18 @@ function canvas4_1()
       text("8",570+25,120);
     }
   }
-  
-  //9
+
+  //Keypad #9
   else if (mouseX > 450 && mouseX < 550 && mouseY > 280 && mouseY < 380)
   {
     cursor(HAND);
-    if (mouseIsPressed == true)
     {
-      rect(455,285,90,90);
-      textSize(70);
-      text("ERROR!",250,70);
-      canvas = 4;
+      //rect(455,285,90,90);
+      //textSize(70);
+      //text("ERROR!",250,70);
     }
   }
-  
+
   //*
   else if (mouseX > 250 && mouseX < 350 && mouseY > 380 && mouseY < 480)
   {
@@ -1127,8 +1166,8 @@ function canvas4_1()
       canvas = 4;
     }
   }
-  
-  
+
+
   //#
   else if (mouseX > 450 && mouseX < 550 && mouseY > 380 && mouseY < 480)
   {
@@ -1143,25 +1182,15 @@ function canvas4_1()
   }
 }
 
-function canvas4_2() // Outside
+
+function canvas4_2() // Keypad with the fingerprints
 {
 
+  //Image of keypad
   image(C4Keypad,250,80,300,400);
-  //2
-  image(C4Fingerprint1,355,85,90,90);
-  
-  //3
-  image(C4Fingerprint2,455,85,90,90);
-
-  //7
-  image(C4Fingerprint2,255,285,90,90);
-
-  //8
-  image(C4Fingerprint1,355,285,90,90);
-
   itemGrid();
 
-  //1
+  //keypad #1
   if (mouseX > 250 && mouseX < 350 && mouseY > 80 && mouseY < 180)
   {
     cursor(HAND);
@@ -1174,7 +1203,7 @@ function canvas4_2() // Outside
     }
   }
 
-  //0
+  //keypad #0
   else if (mouseX > 350 && mouseX < 450 && mouseY > 380 && mouseY < 480)
   {
     cursor(HAND);
@@ -1184,43 +1213,47 @@ function canvas4_2() // Outside
       textSize(70);
       text("ERROR!",250,70);
       canvas = 4;
-    
+
     }
   }
 
-  //2
+  //keypad #2
   else if (mouseX > 350 && mouseX < 450 && mouseY > 80 && mouseY < 180)
   {
     cursor(HAND);
+    //fingerprint on #2
+    image(C4Fingerprint1,355,85,90,90);
     if (mouseIsPressed == true)
     {
       rect(355,85,90,90);
       textSize(50);
       text("2",570+0,120);
-      Z = true;
+      AAA = true;
     }
   }
 
-  //3
+  //keypad #3
   else if (mouseX > 450 && mouseX < 550 && mouseY > 80 && mouseY < 180)
   {
     cursor(HAND);
+    //fingerprint on #3
+    image(C4Fingerprint2,455,85,90,90);
     if (mouseIsPressed == true)
     {
       rect(455,85,90,90);
       textSize(50);
       text("3",570+75,120);
       image(C4Fingerprint1,355,85,90,90);
-      
-      if (Z == true && X == true && V == true)
+
+      if (AAA == true && BBB == true && CCC == true)
       {
-        N = true;
+        DDD = true;
       }      
 
     }
   }
 
-  //4
+  //keypad #4s
   else if (mouseX > 250 && mouseX < 350 && mouseY > 180 && mouseY < 280)
   {
     cursor(HAND);
@@ -1234,7 +1267,7 @@ function canvas4_2() // Outside
     }
   }
 
-  //5
+  //Keypad #5
   else if (mouseX > 350 && mouseX < 450 && mouseY > 180 && mouseY < 280)
   {
     cursor(HAND);
@@ -1247,7 +1280,7 @@ function canvas4_2() // Outside
     }
   }
 
-  //6
+  //Keypad #6
   else if (mouseX > 450 && mouseX < 550 && mouseY > 180 && mouseY < 280)
   {
     cursor(HAND);
@@ -1260,60 +1293,59 @@ function canvas4_2() // Outside
     }
   }
 
-  //7
+  //Keypad #7
   else if (mouseX > 250 && mouseX < 350 && mouseY > 280 && mouseY < 380)
   {
     cursor(HAND);
+    //fingerprint on #7
+    image(C4Fingerprint2,255,285,90,90);
     if (mouseIsPressed == true)
     {
       rect(255,285,90,90);
       textSize(50);
       text("7",570+50,120);
-      
-      if (Z == true && X == true)
+
+      if (AAA == true && BBB == true)
       {
-        V = true;
+        CCC = true;
       }
 
     }
   }
 
-  //8
+  //Keypad #8
   else if (mouseX > 350 && mouseX < 450 && mouseY > 280 && mouseY < 380)
   {
     cursor(HAND);
+    //fingerprint on #8
+    image(C4Fingerprint1,355,285,90,90);
+
     if (mouseIsPressed == true)
     {
       rect(355,285,90,90);
       textSize(50);
       text("8",570+25,120);
-      
-      
-      if (Z == true)
+
+
+      if (AAA == true)
       {
-        X = true;
+        BBB = true;
       }
 
     }
   }
 
-  //9
+  //Keypad #9
   else if (mouseX > 450 && mouseX < 550 && mouseY > 280 && mouseY < 380)
   {
     cursor(HAND);
     if (mouseIsPressed == true)
     {
       rect(455,285,90,90);
-      textSize(70);
-      text("ERROR!",250,70);
-      canvas = 4;
-      
-     
-
     }
   }
 
-  //4
+  //Keypad #4
   else if (mouseX > 250 && mouseX < 350 && mouseY > 380 && mouseY < 480)
   {
     cursor(HAND);
@@ -1326,8 +1358,7 @@ function canvas4_2() // Outside
     }
   }
 
-
-  //#
+  //Keypad ##
   else if (mouseX > 450 && mouseX < 550 && mouseY > 380 && mouseY < 480)
   {
     cursor(HAND);
@@ -1339,27 +1370,28 @@ function canvas4_2() // Outside
       canvas = 4;
     }
   }
-    
-  if (N == true)
+
+  //When all four numbers are correct, go to next canvas
+  if (DDD == true)
   {
     canvas = 5;
   }
-    
-  
+
   else
   {
     cursor(ARROW);
   }
-  
-  
 }
 
-function canvas5() // Outside
+function canvas5() // Escaping through the vent
 {
-  image(C4Background,0,0,830,600); 
+  //Background for Canvas 5
+  image(C5Background,0,0,830,600); 
   itemGrid();
-  image(C5Vent,400,290,40,30);
-  
+  //Image of the vent
+  image(C5Vent,450,210,40,30);
+
+  //State of Spoon
   if (stateOfSpoon == 1)
   {
     moveSpoonX = 430;
@@ -1370,19 +1402,21 @@ function canvas5() // Outside
   {
     image(C5Spoon,endSpoonX,endSpoonY,40,40);
   }
-  
+
   else if (stateOfSpoon == 3)
   {
     noCursor;
     image(C5Spoon,mouseX-25,mouseY-25,40,40);
   }
+  //When the spoon is on the vent
   else if (stateOfSpoon == 4)
   {
     stateOfSpoon = 3;
     canvas = 5.1;
     stateOfC5Vent = 2;
   }
-  
+
+  //When the spoon is clicked
   if (mouseX > 430 && mouseX < 480 && mouseY > 430 && mouseY < 480)
   {
     cursor(HAND);
@@ -1392,8 +1426,7 @@ function canvas5() // Outside
     }
   }
 
- 
-  
+  //When the spoon is in the itemgrid
   else if (mouseX > 20 && mouseX < 90 && mouseY > 520 && mouseY < 590)
   {
     cursor(HAND);
@@ -1407,10 +1440,9 @@ function canvas5() // Outside
   {
     cursor(ARROW);
   }
-  
-  
-  
-  if (mouseX > 400 && mouseX < 440 && mouseY > 290 && mouseY < 320)
+
+  //When the vent is clicked with the spoon
+  if (mouseX > 450 && mouseX < 480 && mouseY > 210 && mouseY < 250)
   {
     cursor(HAND);
     if (stateOfSpoon == 3 && mouseIsPressed == true)
@@ -1421,13 +1453,11 @@ function canvas5() // Outside
   }
 }
 
-function canvas5_1()
+function canvas5_1() //Opening the vent
 {
   cursor(ARROW);
-  draw1();
-  draw2();
-  draw3();
-  
+
+  //Calculation of mouse X,Y
   C5Bolt1 = 
     sqrt((mouseX - 250)*(mouseX - 250) + (mouseY - 130)*(mouseY - 130))
   C5Bolt2 = 
@@ -1436,18 +1466,20 @@ function canvas5_1()
     sqrt((mouseX - 600)*(mouseX - 600) + (mouseY - 130)*(mouseY - 130))
   C5Bolt4 = 
     sqrt((mouseX - 600)*(mouseX - 600) + (mouseY -370)*(mouseY - 370))
-  
-  
- if (stateOfC5Vent == 1)
- {
-   C5SizeX = 40;
-   C5SizeY = 30;
- image(C5Vent,215,100,C5SizeX,C5SizeY);
- } 
+
+  //Changing the size of the vent (enlarges)
+  if (stateOfC5Vent == 1)
+  {
+    C5SizeX = 40;
+    C5SizeY = 30;
+    image(C5Vent,215,100,C5SizeX,C5SizeY);
+  } 
+
+  //The speed of increasing vent
   else if (stateOfC5Vent == 2)
- {
-  image(C5Vent,215,100,C5SizeX,C5SizeY);
-    
+  {
+    image(C5Vent,215,100,C5SizeX,C5SizeY);
+
     if (C5SizeX < endSizeX)
     {
       C5SizeX = C5SizeX + 4;
@@ -1461,6 +1493,7 @@ function canvas5_1()
       stateOfC5Vent = 3;
     }
   }
+
   else if (stateOfC5Vent == 3)
   {
     image(C5Vent,215,100,endSizeX,endSizeY);
@@ -1469,55 +1502,74 @@ function canvas5_1()
       cursor(HAND);
       stateOfC5Vent = 1;
     }
+  }
 
-    else if (C5Bolt2 <= 20)
+  //When the bolt is clicked
+  if (stateOfC5BoltX == 0)
+  {
+  }
+  else if (stateOfC5BoltX == 1)
+  {
+    C5BoltX = 1;
+  }
+  else if (stateOfC5BoltX == 2)
+  {
+    C5BoltX = 2;
+  }
+
+  //Able to click twice
+  if (C5Bolt2 <= 20)
+  {
+    cursor(HAND);
+    if (mouseIsPressed == true && lock == false)
     {
-      cursor(HAND);
-      if (mouseIsPressed == true)
+      boltClickCount = boltClickCount + 1;
+      lock = true;
+      stateOfC5BoltX = 1;
+      if (stateOfC5BoltX == 1 && boltClickCount == 2)
       {
-        C5BoltX = 1;
+        stateOfC5BoltX = 2;
         AA = true;
       }
     }
+  }
 
-    else if (C5Bolt3 <= 20)
+  else if (C5Bolt3 <= 20)
+  {
+    cursor(HAND);
+    if (mouseIsPressed == true)
     {
-      cursor(HAND);
-      if (mouseIsPressed == true)
-      {
-        C5BoltY = 1;
-        BB = true;
-      }
-    }
-
-    else if (C5Bolt4 <= 20)
-    {
-      cursor(HAND);
-      if (mouseIsPressed == true)
-      {
-        C5BoltZ = 1;
-        CC = true;
-      }
-    }
-
-    else
-    {
-      cursor(ARROW);
+      C5BoltY = 1;
+      BB = true;
     }
   }
-  
+
+  else if (C5Bolt4 <= 20)
+  {
+    cursor(HAND);
+    if (mouseIsPressed == true)
+    {
+      C5BoltZ = 1;
+      CC = true;
+    }
+  }
+
+  else
+  {
+    cursor(ARROW);
+  }
+
+  draw1();
+  draw2();
+  draw3();
+
   fill(0,0,0)
   image(C5BoltB,230,110,40,40);
-  
-  fill(255,255,255);
-  ellipse(250,370,40,40);
-  ellipse(600,130,40,40);
-  ellipse(600,370,40,40);
 
-
+  //When all the bolts are released
   if (AA == true && BB == true && CC == true)
   {
-    canvas = 7;
+    canvas = 6;
   }
 }
 
